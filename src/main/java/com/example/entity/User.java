@@ -1,10 +1,13 @@
 package com.example.entity;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 
@@ -16,22 +19,30 @@ import javax.persistence.Table;
 				@GeneratedValue(strategy=GenerationType.AUTO)
 				@Column(name = "user_id")
 				long userID;
-				
-				
-				@Column(name = "user_password",nullable = false)
-				String userPassword;
-				
+								
 				@Column(name = "user_job_title",nullable = false)
 				String userJobTitle;
 				
+				@Column(name = "user_name",nullable = false)
+				String userName;
+
 				@Column(name = "user_first_name",nullable = false)
 				String userFName;
-				
+
 				@Column(name = "user_last_name",nullable = false)
 				String userLName;
-				
+
 				@Column(name = "user_email",nullable = false)
 				String userEmail;
+								
+				@Column(name = "user_password",nullable = false)
+				String userPassword;
+				
+				@Column(name = "user_confirm_password",nullable = false)
+				String confirmPassword;
+					
+				@OneToMany
+				private Set<Role> roles;
 				
 				
 				public void setID(long i) {//Set user ID
@@ -47,6 +58,20 @@ import javax.persistence.Table;
 				}
 				
 				
+				public void setUsername(String un) {//Set user password
+					
+					this.userName = un;
+				}
+				
+				
+				public String getUserName() {//Get user password
+					
+					
+					return userName;
+				}
+				
+				
+				
 				public void setPassword(String ps) {//Set user password
 					
 					this.userPassword = ps;
@@ -57,6 +82,19 @@ import javax.persistence.Table;
 					
 					
 					return userPassword;
+				}
+				
+				
+				public void setConfirmPassword(String cps) {//Set user password
+					
+					this.confirmPassword = cps;
+				}
+				
+				
+				public String getConfirmPassword() {//Get user password
+					
+					
+					return confirmPassword;
 				}
 				
 								
@@ -107,6 +145,12 @@ import javax.persistence.Table;
 				}
 				
 				
+				public Set<Role> getRoles() {
+			        return roles;
+			    }
 
+			    public void setRoles(Set<Role> roles) {
+			        this.roles = roles;
+			    }
 
 }
