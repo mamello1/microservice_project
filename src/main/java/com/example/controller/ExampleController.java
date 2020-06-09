@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 //import org.springframework.web.bind.annotation.PathVariable;
 //import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,7 +32,7 @@ public class ExampleController {
 
 	@Autowired
 	UserRepository ur;
-	
+		
 	@Autowired
 	private BCryptPasswordEncoder passwordencoder;
 	
@@ -64,11 +65,23 @@ public class ExampleController {
 	public User createUser(@RequestBody User u) {
 		
 		LOG.info("User Password" + u.getPassword());
-		
+			
 		String encoderPassword = passwordencoder.encode(u.getPassword());	
 		u.setPassword(encoderPassword);
 	    return ur.save(u);
 	    
+	}
+	
+	
+	//Shows the login form
+	@GetMapping("/resources/login")
+	public String showLoginForm(WebRequest request, Model model) {
+		
+		LOG.info("Show Login Form");
+		
+	    User u = new User();
+	    model.addAttribute("user", u);
+	    return "login";
 	}
 	
 	//Shows the registration form
@@ -109,7 +122,7 @@ public class ExampleController {
 	
 	//Deleting a user
 	/*@DeleteMapping("/users/{userID}")
-	public ResponseEntity<?> deleteNote(@PathVariable(value = "userID") Long id) {
+	public ResponseEntity<?> deleteUser(@PathVariable(value = "userID") Long id) {
 		
 	    User e = ur.findById(id).orElseThrow(() -> new Exception("User","userID",id));
 

@@ -1,13 +1,18 @@
 package com.example.entity;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -41,8 +46,10 @@ import javax.persistence.Table;
 				@Column(name = "user_confirm_password",nullable = false)
 				String confirmPassword;
 					
-				@OneToMany
-				private Set<Role> roles;
+				@OneToMany(fetch = FetchType.LAZY)
+				@JoinTable(name = "user_user_profile")
+				@JoinColumn(name = "user_id")
+				private Set<UserProfile> userProfile= new HashSet<UserProfile>();
 				
 				
 				public void setID(long i) {//Set user ID
@@ -145,12 +152,18 @@ import javax.persistence.Table;
 				}
 				
 				
-				public Set<Role> getRoles() {
-			        return roles;
+				public void setUserProfile(Set<UserProfile> ups) {
+					
+				      this.userProfile = ups;
+				    }
+				  
+				public Set<UserProfile> getUserProfile() {
+			        
+					return userProfile;
+			    
 			    }
 
-			    public void setRoles(Set<Role> roles) {
-			        this.roles = roles;
-			    }
+
+			  
 
 }

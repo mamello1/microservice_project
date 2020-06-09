@@ -21,17 +21,21 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		
-		/* http.authorizeRequests()
-		 .antMatchers("/resources/**")
-		 .permitAll()		 
+		 http.authorizeRequests()
+		 .antMatchers("/example/**")
+		 .access("hasRole('USER') or hasRole('ADMIN') or hasRole('DBA')")
+		 .antMatchers("/createUser").access("hasRole('USER')")
+		 .antMatchers("/createUser","/updateUser","deleteUser").access("hasRole('ADMIN')")
+		 .antMatchers("/updateUser","deleteUser").access("hasRole('DBA')")	
+		 .antMatchers("/resources/**", "/register").permitAll()
 	     .anyRequest()
 	     .authenticated()
 	     .and()
 	     .formLogin()
 	     .loginPage("/login")
-	     .permitAll();*/
-		
-		http.csrf().disable();
+	     .permitAll();
+		 	 
+		 http.csrf().disable();
 	
 	}
 	
