@@ -1,36 +1,80 @@
-<html lang="en">
-    
-	<head>  
-  
-		<title>Login</title> 
-   
-	</head>    
-	
-	<body>
-	
-	<h1 th:text="#{label.form.title}">Login Here</h1>
-		
-	<form action="/" th:object="${user}" method="POST" enctype="utf8">
-	
-    <div>
-        <label th:text="#{label.user.userID}">User ID</label>
-        <input th:field="*{userID}" placeholder = "Please enter your user id here"/>
-        <p th:each="error: ${#fields.errors('userID')}"
-          th:text="${error}">Validation error</p>
-    </div>
-      
-    <div>
-        <label th:text="#{label.user.userPassword}">Password</label>
-        <input type="password" th:field="*{userPassword}" placeholder = "Please  your password here">
-        <p th:each="error : ${#fields.errors('userPassword')}"
-          th:text="${error}">Validation error</p>
-    </div>
-    
-    <button type="submit" th:text="#{label.form.submit}">Log In</button>
-    
-	</form>
-		
-      
-      
-    </body>
-</html>  
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<link rel="stylesheet" type="text/css"
+	th:href="@{/webjars/bootstrap/3.3.7/css/bootstrap.min.css}" />
+
+<title>Registration</title>
+</head>
+<body>
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed"
+					data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+					aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span> <span
+						class="icon-bar"></span> <span class="icon-bar"></span> <span
+						class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="#" th:href="@{/}">Registration and
+					Login Module</a>
+			</div>
+		</div>
+	</nav>
+
+	<br>
+	<br>
+
+	<div class="container">
+
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<h1>Login page</h1>
+				<form th:action="@{/login}" method="post">
+					<div th:if="${param.error}">
+						<div class="alert alert-danger">You Have Entered An Invalid Username or Password.</div>
+					</div>
+					<div th:if="${param.logout}">
+						<div class="alert alert-info">You have been logged out.</div>
+					</div>
+					<div class="form-group">
+						<label for="username">Username</label>: <input type="text"
+							id="username" name="username" class="form-control"
+							autofocus="autofocus" placeholder=" Please Enter Your Username Here" />
+					</div>
+					<div class="form-group">
+						<label for="userPassword">Password</label>: <input type="password"
+							id="userPassword" name="userPassword" class="form-control"
+							placeholder="Please Enter Your Password Here" />
+					</div>
+					<div class="form-group">
+						<div class="row">
+							<div class="col-sm-6 col-sm-offset-3">
+								<input type="submit" name="login-submit" id="login-submit"
+									class="form-control btn btn-primary" value="Log In" />
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<span> Are You A New user? <a href="/" th:href="@{/registration}">Register Here</a></span>
+					</div>
+				</form>
+			</div>
+		</div>
+
+
+	</div>
+
+	<script type="text/javascript"
+		th:src="@{/webjars/jquery/3.2.1/jquery.min.js/}"></script>
+	<script type="text/javascript"
+		th:src="@{/webjars/bootstrap/3.3.7/js/bootstrap.min.js}"></script>
+
+</body>
+</html>

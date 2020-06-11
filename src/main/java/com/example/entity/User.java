@@ -1,8 +1,7 @@
 package com.example.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-
+import java.util.Collection;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,13 +10,12 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-
+import javax.persistence.UniqueConstraint;
 
 	@Entity//This annotation communicates with Hibernate to create a table from this class
-	@Table(name = "users")
+	@Table(name = "users",uniqueConstraints = @UniqueConstraint(columnNames = "user_email") )
 	public class User {
 		
 				@Id
@@ -26,10 +24,7 @@ import javax.persistence.Table;
 				long userID;
 								
 				@Column(name = "user_job_title",nullable = false)
-				String userJobTitle;
-				
-				@Column(name = "user_name",nullable = false)
-				String userName;
+				String userJobTitle;			
 
 				@Column(name = "user_first_name",nullable = false)
 				String userFName;
@@ -41,17 +36,37 @@ import javax.persistence.Table;
 				String userEmail;
 								
 				@Column(name = "user_password",nullable = false)
-				String userPassword;
+				String userPassword;	
+			
+				@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+			    @JoinTable(name = "users_roles",
+			    joinColumns = @JoinColumn( name = "user_id", referencedColumnName = "user_id"),
+			    inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
+			    private Collection <Role>  roles;
 				
-				@Column(name = "user_confirm_password",nullable = false)
-				String confirmPassword;
+				public User() {
+			    }
+
+				public User(String userFName, String userLName,String userEmail,String userJobTitle, String userPassword) {
 					
-				@OneToMany(fetch = FetchType.LAZY)
-				@JoinTable(name = "user_user_profile")
-				@JoinColumn(name = "user_id")
-				private Set<UserProfile> userProfile= new HashSet<UserProfile>();
+		
+					 this.userFName = userFName;
+				     this.userEmail = userEmail;
+				     this.userJobTitle = userJobTitle;
+				     this.userPassword = userPassword;
+				       
+				    }
 				
-				
+				public User(String userFName, String userLName,String userEmail,String userJobTitle, String userPassword, Collection<Role> roles) {
+				       this.userFName = userFName;
+				       this.userLName = userLName;
+				       this.userEmail = userEmail;
+				       this.userJobTitle = userJobTitle;
+				       this.userPassword = userPassword;
+				       this.roles = roles;
+				    }
+
+			   				
 				public void setID(long i) {//Set user ID
 					
 					this.userID = i;
@@ -63,21 +78,7 @@ import javax.persistence.Table;
 					
 					return userID;
 				}
-				
-				
-				public void setUsername(String un) {//Set user password
-					
-					this.userName = un;
-				}
-				
-				
-				public String getUserName() {//Get user password
-					
-					
-					return userName;
-				}
-				
-				
+							
 				
 				public void setPassword(String ps) {//Set user password
 					
@@ -91,20 +92,7 @@ import javax.persistence.Table;
 					return userPassword;
 				}
 				
-				
-				public void setConfirmPassword(String cps) {//Set user password
-					
-					this.confirmPassword = cps;
-				}
-				
-				
-				public String getConfirmPassword() {//Get user password
-					
-					
-					return confirmPassword;
-				}
-				
-								
+											
 				public void setJobTitle(String j) {//Set user job title
 					
 					this.userJobTitle = j;
@@ -151,19 +139,26 @@ import javax.persistence.Table;
 					return userEmail;
 				}
 				
-				
-				public void setUserProfile(Set<UserProfile> ups) {
-					
-				      this.userProfile = ups;
-				    }
-				  
-				public Set<UserProfile> getUserProfile() {
-			        
-					return userProfile;
-			    
+
+			    public Collection <Role> getRoles() {
+			        return roles;
 			    }
 
-
-			  
+			    public void setRoles(Collection < Role > roles) {
+			        this.roles = roles;
+			    }
+			    
+			    @Override
+			    public String toString() {
+			        return "User{" +
+			                "id=" + userID +			         
+			                ", userFName='" + userFName + '\'' +
+			                ", userLName='" + userLName + '\'' +			                
+			                ", userEmail='" + userEmail + '\'' +
+			                ", userJobTitle='" + userJobTitle + '\'' +
+			                ", userPassword='" + "*********" + '\'' +
+			                ", roles=" + roles +
+			                '}';
+			    }
 
 }

@@ -1,12 +1,15 @@
 package com.example.service;
 
+import org.springframework.security.core.userdetails.UserDetailsService;
+
 import com.example.entity.User;
 
+import com.example.dto.UserRegistrationDto ;
 
-public interface UserService {
-
-	//void save(User user);
+public interface UserService extends UserDetailsService{
 	
-    User findByUsername(String username);
+    User findByEmail(String userEmail);
+    
+    User save(UserRegistrationDto registration);
        
 }

@@ -1,7 +1,9 @@
 package com.example.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,37 +16,39 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.example.service.UserService;
+import com.example.entity.Role;
 import com.example.entity.User;
-import com.example.entity.UserProfile;
+import com.example.repository.UserRepository;
 
-@Service
-public class CustomUserDetailsService implements UserDetailsService {
+//@Service
+//public class CustomUserDetailsService implements UserDetailsService {
 
 	
-	static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
+	//static final Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
 	
-	@Autowired
-	UserService us;
+	//@Autowired
+	//private UserRepository ur;
 	
-	@Transactional(readOnly = true)
-	public UserDetails loadUserByUsername(String userName) throws UsernameNotFoundException {
+	/*@Transactional(readOnly = true)
+	public UserDetails loadUserByUsername(String userName){
 		
-		User user = us.findByUsername(userName);
+			User user = ur.findByUserName(userName);
 		
-		logger.info("User : {}" ,user);
+		 if (user == null) throw new UsernameNotFoundException(userName);
+
+	        Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
+	        for (Role role : user.getRoles()){
+	            grantedAuthorities.add(new SimpleGrantedAuthority(role.getFName()));
+	        }
+
+	        return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(), grantedAuthorities);
+	    }
 		
-		if(user == null) {
-			
-			logger.info("User Is Not Found");
-			
-			throw new UsernameNotFoundException("User Not Found");
-		}
 		
-		 return new org.springframework.security.core.userdetails.User(user.getUserName(), user.getPassword(),  true, true, true, true, getGrantedAuthorities(user));
-	}
+	}*/
 	
 
-	private List<GrantedAuthority> getGrantedAuthorities(User user){
+   /*private List<GrantedAuthority> getGrantedAuthorities(User user){
 		
     List<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
     
@@ -59,7 +63,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     logger.info("Authorities : {}", authorities);
     
     return authorities;
-}
 	
 	}
+}*/
  
